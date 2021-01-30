@@ -23,7 +23,7 @@ func TestUnmarshalRequest(t *testing.T) {
 func TestHandleUnrecogizedProcedure(t *testing.T) {
 	t.Parallel()
 	ctx := context.Background()
-	router := NewRouter()
+	router := New()
 	_, err := router.Handle(ctx, Request{})
 	require.Error(t, err)
 	assert.Equal(t, "unrecognized procedure ''", err.Error())
@@ -33,7 +33,7 @@ func TestHandleWithResponseBody(t *testing.T) {
 	t.Parallel()
 	ctx := context.Background()
 	body := []byte(`{"body":"response body"}`)
-	router := NewRouter()
+	router := New()
 	router.Route("Do", HandlerFunc(func(context.Context, json.RawMessage) (json.RawMessage, error) {
 		return body, nil
 	}))
@@ -45,7 +45,7 @@ func TestHandleWithResponseBody(t *testing.T) {
 func TestHandleWithResponseError(t *testing.T) {
 	t.Parallel()
 	ctx := context.Background()
-	router := NewRouter()
+	router := New()
 	router.Route("Do", HandlerFunc(func(context.Context, json.RawMessage) (json.RawMessage, error) {
 		return nil, assert.AnError
 	}))

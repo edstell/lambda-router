@@ -52,8 +52,8 @@ type Router struct {
 // be handled.
 type Option func(*Router)
 
-// NewRouter initializes a Router instance with the options passed.
-func NewRouter(opts ...Option) *Router {
+// New initializes a Router instance with the options passed.
+func New(opts ...Option) *Router {
 	router := &Router{
 		routes: map[string]Handler{},
 		marshalError: func(err error) ([]byte, error) {
