@@ -21,7 +21,7 @@ type Request struct {
 // marshaled to json and streamed as part of the response.
 type Response struct {
 	Body  json.RawMessage `json:"body"`
-	Error json.RawMessage `json:"error"`
+	Error json.RawMessage `json:"error,omitempty"`
 }
 
 // Handler implementations will be called by the Router to handle requests made
