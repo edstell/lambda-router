@@ -20,7 +20,7 @@ type Request struct {
 // NOTE: Errors returned from a Handler won't be propagated, instead they're
 // marshaled to json and streamed as part of the response.
 type Response struct {
-	Body  json.RawMessage `json:"body"`
+	Body  json.RawMessage `json:"body,omitempty"`
 	Error json.RawMessage `json:"error,omitempty"`
 }
 
