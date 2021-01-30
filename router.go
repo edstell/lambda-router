@@ -44,7 +44,7 @@ func (f HandlerFunc) Handle(ctx context.Context, body json.RawMessage) (json.Raw
 // It does the work of unwrapping the request event and passing it to the
 // relevant Handler, and wrapping the response, or error returned.
 type Router struct {
-	routes       map[string]Handler
+	Routes       map[string]Handler
 	marshalError func(error) ([]byte, error)
 }
 
@@ -55,7 +55,7 @@ type Option func(*Router)
 // New initializes a Router instance with the options passed.
 func New(opts ...Option) *Router {
 	router := &Router{
-		routes: map[string]Handler{},
+		Routes: map[string]Handler{},
 		marshalError: func(err error) ([]byte, error) {
 			return []byte(err.Error()), nil
 		},
@@ -70,12 +70,12 @@ func New(opts ...Option) *Router {
 // NOTE: If multiple Handlers are registered to the same procedure, only the
 // last registered will be called.
 func (r *Router) Route(procedure string, handler Handler) {
-	r.routes[procedure] = handler
+	r.Routes[procedure] = handler
 }
 
 // Handle should be passed to 'lambda.Start' to handle inbound requests.
 func (r *Router) Handle(ctx context.Context, req Request) (*Response, error) {
-	handler, ok := r.routes[req.Procedure]
+	handler, ok := r.Routes[req.Procedure]
 	if !ok {
 		return nil, errors.New(fmt.Sprintf("unrecognized procedure '%s'", req.Procedure))
 	}
