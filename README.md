@@ -5,7 +5,7 @@ Lightweight wrapper for routing lambda events to handling functions.
 Initialize a router and register handlers, then pass to lamda.Start.
 ```
 router := NewRouter()
-router.Route("Do", handler)
+router.Route("Do", handleDo)
 lambda.Start(router.Handle)
 ```
 
