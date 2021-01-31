@@ -45,7 +45,7 @@ func (f HandlerFunc) Handle(ctx context.Context, body json.RawMessage) (json.Raw
 // relevant Handler, and wrapping the response, or error returned.
 type Router struct {
 	Routes       map[string]Handler
-	marshalError func(error) ([]byte, error)
+	marshalError func(error) (json.RawMessage, error)
 }
 
 // Option implementations can mutate the Router to configure how events should
@@ -56,7 +56,7 @@ type Option func(*Router)
 func New(opts ...Option) *Router {
 	router := &Router{
 		Routes: map[string]Handler{},
-		marshalError: func(err error) ([]byte, error) {
+		marshalError: func(err error) (json.RawMessage, error) {
 			return []byte(err.Error()), nil
 		},
 	}
@@ -96,7 +96,7 @@ func (r *Router) Handle(ctx context.Context, req Request) (*Response, error) {
 // isn't provided only the error message  will be propagated to the caller.
 // If your marshaling function fails it should return an error; the Router
 // will propagate the original err.Error() in this case.
-func MarshalErrorsWith(f func(error) ([]byte, error)) Option {
+func MarshalErrorsWith(f func(error) (json.RawMessage, error)) Option {
 	return func(router *Router) {
 		router.marshalError = f
 	}
